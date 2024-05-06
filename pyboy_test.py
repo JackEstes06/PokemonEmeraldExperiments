@@ -24,7 +24,7 @@ while pyboy.tick():
     expGivenMemory = pyboy.memory[0xCB7E:0xCB7F]
     # end TODO
     currAttMemory = pyboy.memory[0xCBC1]
-    
+
     currentStats = (f"Item held memory: {itemHeldMemory} -> {itemConstants[itemHeldMemory]}\n"
                     f"Moves 1-4 memory: {movesMemory} -> {printMoves(movesMemory)}\n"
                     f"PP Moves 1-4 memory: {ppMovesMemory}\n"
