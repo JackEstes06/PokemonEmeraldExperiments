@@ -1,3 +1,22 @@
+# These constants are the actual memory locations of static variables
+# Pokemon currently being used in battle
+CURR_ITEM_HELD = 0xCB0D
+CURR_MOVES_START = 0xCB0E
+CURR_MOVES_END = 0xCB12
+CURR_MOVES_PP_START = 0xCB14
+CURR_MOVES_PP_END = 0xCB18
+CURR_STATUS = 0xCB1A
+CURR_HP = 0xCB1D
+CURR_TYPE_START = 0xCB2A
+CURR_TYPE_END = 0xCB2C
+CURR_SUBSTITUTE = 0xCB49
+CURR_MONEY_START = 0xCB65
+CURR_MONEY_END = 0xCB7D
+CURR_EXP_GIVEN_START = 0xCB7E
+CURR_EXP_GIVEN_END = 0xCBC0
+CURR_ATTACK = 0xCBC1
+# Opposing pokemon in battle
+
 # These keys are in hex here: https://github.com/pret/pokegold/blob/master/constants/item_constants.asm
 # Converted to int since they are stored in memory as ints
 itemConstants = {
@@ -464,6 +483,9 @@ def printMoves(movesList: list[:int]):
 # - https://github.com/pret/pokegold/blob/a62dfe85486bc232049530035fb7614a624e53e0/constants/type_constants.asm
 # They aren't specifically linked with hex values, but they are consecutively numbered starting at 1 (I think??)
 pokemonTypeConstants = {
+    # NO_TYPES_START
+    0: "None",
+    # NO_TYPES_END
     # PHYSICAL_TYPES_START
     1: "Normal",
     2: "Fighting",
@@ -498,3 +520,11 @@ pokemonTypeConstants = {
     27: "Dark",
     # SPECIAL_TYPES_END
 }
+
+
+def printPokeType(typesList: list[:int]):
+    pokeTypesList = []
+    for types in typesList:
+        if not pokeTypesList.__contains__(pokemonTypeConstants[types]):
+            pokeTypesList.append(pokemonTypeConstants[types])
+    return pokeTypesList
