@@ -5,6 +5,8 @@ pyboy = PyBoy('Pokemon - Gold Version (UE) [C][!].gbc', sound=True, scale=3)
 previousStats = ""
 currentStats = ""
 pyboy.set_emulation_speed(4)
+with open("state_file.state", "rb") as f:
+    pyboy.load_state(f)
 
 while pyboy.tick():
     if pyboy.events:
@@ -36,8 +38,10 @@ while pyboy.tick():
                     f"Exp Given memory: {expGivenMemory}\n"
                     f"Current Attack memory: {currAttMemory}\n\n\n")
 
-    if currentStats != previousStats: 
+    if currentStats != previousStats:
         previousStats = currentStats
         print(previousStats)
+        with open("state_file.state", "wb") as f:
+            pyboy.save_state(f)
     pass
 pyboy.stop()
