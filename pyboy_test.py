@@ -46,5 +46,4 @@ while pyboy.tick():
         print(previousStats)
         with open("state_file.state", "wb") as f:
             pyboy.save_state(f)
-    pass
 pyboy.stop()
