@@ -1,3 +1,5 @@
+from ramMapConstants import *
+
 # Given the starting RAM location, a pokemon is structured off of the following offsets from the start position:
 # Info found here: https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_data_structure_(Generation_II)
 # ------------------------------------------------------
@@ -36,6 +38,52 @@
 # 0x2E 	    Special Defense 	                2 bytes
 # ------------------------------------------------------
 
-class Pokemon:
-    # TODO stub out structed class
-    pass
+class PokemonRAM:
+    def __init__(self, ramHex, pyboy):
+        self.ramStartHex = ramHex
+        self.pyboyInstance = pyboy
+        self.pokeNumberRamHex = self.pyboyInstance.memory(self.ramStartHex + 0x00)
+        self.pokeItemRamHex = self.pyboyInstance.memory(self.ramStartHex + 0x01)
+        self.pokeMove1RamHex = self.pyboyInstance.memory(self.ramStartHex + 0x02)
+        self.pokeMove2RamHex = self.pyboyInstance.memory(self.ramStartHex + 0x03)
+        self.pokeMove3RamHex = self.pyboyInstance.memory(self.ramStartHex + 0x04)
+        self.pokeMove4RamHex = self.pyboyInstance.memory(self.ramStartHex + 0x05)
+        self.ogTrainerIDRamHex = self.pyboyInstance.memory(self.ramStartHex + 0x06)
+        self.expRamHex = self.pyboyInstance.memory(self.ramStartHex + 0x08)
+        self.hpEVDataRamHex = self.pyboyInstance.memory(self.ramStartHex + 0x0B)
+        self.attEVDataRamHex = self.pyboyInstance.memory(self.ramStartHex + 0x0D)
+        self.defEVDataRamHex = self.pyboyInstance.memory(self.ramStartHex + 0x0F)
+        self.speedEVDataRamHex = self.pyboyInstance.memory(self.ramStartHex + 0x11)
+        self.specialEVDataRamHex = self.pyboyInstance.memory(self.ramStartHex + 0x13)
+        self.ivDataRamHex = self.pyboyInstance.memory(self.ramStartHex + 0x15)
+        self.pokeMove1PPRamHex = self.pyboyInstance.memory(self.ramStartHex + 0x17)
+        self.pokeMove2PPRamHex = self.pyboyInstance.memory(self.ramStartHex + 0x18)
+        self.pokeMove3PPRamHex = self.pyboyInstance.memory(self.ramStartHex + 0x19)
+        self.pokeMove4PPRamHex = self.pyboyInstance.memory(self.ramStartHex + 0x1A)
+        self.friendEggCyclesRamHex = self.pyboyInstance.memory(self.ramStartHex + 0x1B)
+        self.pokerusInfectionRamHex = self.pyboyInstance.memory(self.ramStartHex + 0x1C)
+        self.caughtDataRamHex = self.pyboyInstance.memory(self.ramStartHex + 0x1D)
+        self.levelRamHex = self.pyboyInstance.memory(self.ramStartHex + 0x1F)
+        self.statusRamHex = self.pyboyInstance.memory(self.ramStartHex + 0x20)
+        self.unusedByteRamHex = self.pyboyInstance.memory(self.ramStartHex + 0x21)
+        self.currHPRamHex = self.pyboyInstance.memory(self.ramStartHex + 0x22)
+        self.maxHPRamHex = self.pyboyInstance.memory(self.ramStartHex + 0x24)
+        self.attStatRamHex = self.pyboyInstance.memory(self.ramStartHex + 0x26)
+        self.defStatRamHex = self.pyboyInstance.memory(self.ramStartHex + 0x28)
+        self.speedStatRamHex = self.pyboyInstance.memory(self.ramStartHex + 0x2A)
+        self.spAttStatRamHex = self.pyboyInstance.memory(self.ramStartHex + 0x2C)
+        self.spDefStatRamHex = self.pyboyInstance.memory(self.ramStartHex + 0x2E)
+
+    def printPokemonInfo(self):
+        pokeMovesList = [self.pokeMove1RamHex, self.pokeMove2RamHex, self.pokeMove3RamHex, self.pokeMove4RamHex]
+        pokeMovesPPList = [self.pokeMove1PPRamHex, self.pokeMove2PPRamHex, self.pokeMove3PPRamHex, self.pokeMove4PPRamHex]
+        print(f"Item held memory: {self.pokeItemRamHex} -> {itemConstants[self.pokeItemRamHex]}\n"
+              f"Moves 1-4 memory: {pokeMovesList} -> {printMoves(pokeMovesList)}\n"
+              f"PP Moves 1-4 memory: {pokeMovesPPList}\n"
+              f"Status memory: {self.statusRamHex}\n"
+              f"HP in Battle memory: {self.currHPRamHex}/{self.maxHPRamHex}\n")
+              # f"Type 1-2 memory: {typeMemory} -> {printPokeType(typeMemory)}\n"
+              # f"Substitute memory: {substituteMemory}\n"
+              # f"Money earned memory: {moneyMemory}\n"
+              # f"Exp Given memory: {expGivenMemory}\n"
+              # f"Current Attack memory: {currAttMemory} -> {printMoves([currAttMemory])}\n\n\n")

@@ -1,5 +1,6 @@
 from pyboy import PyBoy
 from ramMapConstants import *
+from pokemonStruct import *
 from io import BufferedIOBase
 
 pyboy = PyBoy('Pokemon - Gold Version (UE) [C][!].gbc', sound=True, scale=3)
@@ -41,7 +42,9 @@ while pyboy.tick():
                     f"Current Attack memory: {currAttMemory} -> {printMoves([currAttMemory])}\n\n\n")
 
     if currentStats != previousStats:
-        print(f"Pokemon Struct: {pyboy.memory[0xCB0C:0xCB33]}\n")
+        pokemon = PokemonRAM(0xCB0C, pyboy)
+        pokemon.printPokemonInfo()
+
         previousStats = currentStats
         print(previousStats)
         with open("state_file.state", "wb") as f:
