@@ -1,34 +1,34 @@
 from pyboy import PyBoy
 from ramMapConstants import *
-from pokemonStruct import *
+from pokemonStruct import PokemonRAM
 from io import BufferedIOBase
 
-pyboy = PyBoy('Pokemon - Gold Version (UE) [C][!].gbc', sound=True, scale=3)
+PY_BOY = PyBoy('Pokemon - Gold Version (UE) [C][!].gbc', sound=True, scale=3)
 previousStats = ""
 currentStats = ""
-pyboy.set_emulation_speed(4)
+PY_BOY.set_emulation_speed(4)
 with open("state_file.state", "rb") as f:
     f.seek(0)
-    pyboy.load_state(f)
+    PY_BOY.load_state(f)
 
-while pyboy.tick():
-    if pyboy.events:
-        print(f"events: {pyboy.events}")
+while PY_BOY.tick():
+    if PY_BOY.events:
+        print(f"events: {PY_BOY.events}")
 
-    itemHeldMemory: int = pyboy.memory[0xCB0D]
-    movesMemory: list[:int] = pyboy.memory[0xCB0E:0xCB12]
-    ppMovesMemory: list[:int] = pyboy.memory[0xCB14:0xCB18]
+    itemHeldMemory: int = PY_BOY.memory[0xCB0D]
+    movesMemory: list[:int] = PY_BOY.memory[0xCB0E:0xCB12]
+    ppMovesMemory: list[:int] = PY_BOY.memory[0xCB14:0xCB18]
     # TODO: Figure out if this actually works
-    statusMemory = pyboy.memory[0xCB1A]
+    statusMemory = PY_BOY.memory[0xCB1A]
     # end TODO
-    hpMemory = pyboy.memory[0xCB1D]
-    typeMemory: list[:int] = pyboy.memory[0xCB2A:0xCB2C]
-    substituteMemory = pyboy.memory[0xCB49]
+    hpMemory = PY_BOY.memory[0xCB1D]
+    typeMemory: list[:int] = PY_BOY.memory[0xCB2A:0xCB2C]
+    substituteMemory = PY_BOY.memory[0xCB49]
     # TODO: These aren't working -> need to find the memory locations proper
-    moneyMemory = pyboy.memory[0xCB65:0xCB66]
-    expGivenMemory = pyboy.memory[0xCB7E:0xCBC0]
+    moneyMemory = PY_BOY.memory[0xCB65:0xCB66]
+    expGivenMemory = PY_BOY.memory[0xCB7E:0xCBC0]
     # end TODO
-    currAttMemory = pyboy.memory[0xCBC1]
+    currAttMemory = PY_BOY.memory[0xCBC1]
 
     currentStats = (f"Item held memory: {itemHeldMemory} -> {itemConstants[itemHeldMemory]}\n"
                     f"Moves 1-4 memory: {movesMemory} -> {printMoves(movesMemory)}\n"
@@ -42,11 +42,12 @@ while pyboy.tick():
                     f"Current Attack memory: {currAttMemory} -> {printMoves([currAttMemory])}\n\n\n")
 
     if currentStats != previousStats:
-        pokemon = PokemonRAM(0xCB0C, pyboy)
+        pokemon = PokemonRAM(0xCB0C)
+        pokemon.printPokemoneRAM()
         pokemon.printPokemonInfo()
 
         previousStats = currentStats
         print(previousStats)
         with open("state_file.state", "wb") as f:
-            pyboy.save_state(f)
-pyboy.stop()
+            PY_BOY.save_state(f)
+PY_BOY.stop()
