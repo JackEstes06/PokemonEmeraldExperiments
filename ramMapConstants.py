@@ -10,10 +10,11 @@ CURR_HP = 0xCB1D
 CURR_TYPE_START = 0xCB2A
 CURR_TYPE_END = 0xCB2C
 CURR_SUBSTITUTE = 0xCB49
-CURR_MONEY_START = 0xCB65
-CURR_MONEY_END = 0xCB7D
+MONEY_EARNED = 0xCB66
+# TODO: This isn't working -> need to find the memory locations proper
 CURR_EXP_GIVEN_START = 0xCB7E
 CURR_EXP_GIVEN_END = 0xCBC0
+# end TODO
 CURR_ATTACK = 0xCBC1
 # Opposing pokemon in battle
 
